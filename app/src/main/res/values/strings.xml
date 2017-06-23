@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Go!Explore</string>
+    <string name="app_real_name">Go!旅途</string>
+    <string name="app_sub_title">目标是，环游世界！</string>
+    <string name="login_hint_account">请输入登录账号</string>
+    <string name="login_hint_password">请输入登录密码</string>
+    <string name="login_button_forget_password">忘记密码?</string>
+    <string name="login_divide">---------第三方登录---------</string>
+
+    <string name="register_hint_phonenumber">请输入手机号码</string>
+    <string name="register_hint_password">请输入密码</string>
+    <string name="register_hint_verification_code">请输入验证码</string>
+    <string name="register_title">注册</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
