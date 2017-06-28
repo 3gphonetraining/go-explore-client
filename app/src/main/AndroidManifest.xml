@@ -2,7 +2,9 @@
           
     package="xingyingyue.com.goexplore"
     >
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application android:allowBackup="true"
         android:label="@string/app_real_name"
         android:icon="@drawable/app_icon"
@@ -34,6 +36,14 @@
         <activity android:name=".Activity.ShareContentActivity"
             android:label="内容">
         </activity>
+        <activity android:name=".Activity.ModifyRoleInfoActivity"
+            android:label="角色信息修改"/>
+        <activity android:name=".Activity.ModifyAccountInfoActivity"
+            android:label="账号信息修改"/>
+        <activity android:name=".Activity.ForgetPasswordActivity"
+            android:label="忘记密码"/>
+        <activity android:name=".Activity.AchievementListActivity"
+            android:label="我的成就"/>
     </application>
 
 </manifest>

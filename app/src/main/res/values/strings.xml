@@ -12,6 +12,10 @@
     <string name="register_hint_verification_code">请输入验证码</string>
     <string name="register_title">注册</string>
 
+    <string name="modify_role_information_button">确认修改</string>
+
+    <string name="forget_password_button">修改密码</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

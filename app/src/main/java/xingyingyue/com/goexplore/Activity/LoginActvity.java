@@ -10,7 +10,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import xingyingyue.com.goexplore.R;
+import xingyingyue.com.goexplore.Util.OkHttpUtil;
 
 /**
  * Created by huanghaojian on 17/6/14.
@@ -47,14 +53,21 @@ public class LoginActvity extends BaseActivity  {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.button_login:
+                /*final String phoneNumber=inputAccount.getText().toString().trim();
+                final String password=inputPassword.getText().toString().trim();
+                if(phoneNumber.trim().equals("")||phoneNumber.length()<0||password.trim().equals("")||password.length()<0){
+                    Toast.makeText(this,"请输入完整信息",Toast.LENGTH_SHORT).show();
+                    break;
+                }else{
+                    loginFunc(phoneNumber,password);
+                }*/
                 MainActivity.actionStart(LoginActvity.this);
-                finish();
                 break;
             case R.id.button_register:
                 RegisterActivity.actionStart(LoginActvity.this);
                 break;
             case R.id.button_forget_password:
-                Toast.makeText(this,"click forgetPassword",Toast.LENGTH_SHORT).show();
+                ForgetPasswordActivity.actionStart(LoginActvity.this);
                 break;
             default:
                 break;
@@ -63,5 +76,52 @@ public class LoginActvity extends BaseActivity  {
     public static void actionStart(Context context){
         Intent intent=new Intent(context,LoginActvity.class);
         context.startActivity(intent);
+    }
+    public void loginFunc(final String userAccount,final String password){
+        String registerUrl="http://110.64.90.22:8080/login/login?userAccount="+userAccount+"&password="+password;
+        OkHttpUtil.sendOkHttpRequest(registerUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActvity.this,"登录失败",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String response1=response.body().string();
+                System.out.println(response1);
+                if(response1.trim().equals("0")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActvity.this, "用户不存在或密码不正确", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                if(response1.trim().equals("1")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActvity.this, "该账号正在登录", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                if(response1.trim().equals("2")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActvity.this, "登录成功", Toast.LENGTH_LONG).show();
+                            MainActivity.actionStart(LoginActvity.this);
+                            finish();
+                        }
+                    });
+                }
+            }
+        });
     }
 }

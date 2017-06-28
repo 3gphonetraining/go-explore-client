@@ -82,6 +82,7 @@
             android:textSize="17sp"
             android:gravity="center"
             android:text="注册"/>
+
         <TextView
             android:id="@+id/button_forget_password"
             android:layout_width="match_parent"
@@ -92,6 +93,17 @@
             android:textColor="@color/textColor"
             android:textSize="17sp"
             android:text="@string/login_button_forget_password"/>
+        <CheckBox
+            android:id="@+id/option_remember_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="记住密码"
+            android:textColor="@color/textColor"
+            android:textSize="17sp"
+            android:checked="true"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

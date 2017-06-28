@@ -63,16 +63,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.nav_personal_info_setting:
-                Toast.makeText(this,"click personal setting",Toast.LENGTH_SHORT).show();
+                ModifyAccountInfoActivity.actionStart(MainActivity.this);
                 break;
             case R.id.nav_role_setting:
-                Toast.makeText(this,"click role setting",Toast.LENGTH_SHORT).show();
+                ModifyRoleInfoActivity.actionStart(MainActivity.this);
                 break;
             case R.id.nav_publish_record:
                 ShareContentListActivity.actionStart(MainActivity.this);
                 break;
             case R.id.nav_achievement:
-                Toast.makeText(this,"click achievement",Toast.LENGTH_SHORT).show();
+                AchievementListActivity.actionStart(MainActivity.this);
                 break;
             default:
         }
