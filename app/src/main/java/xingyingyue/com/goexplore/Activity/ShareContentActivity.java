@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xingyingyue.com.goexplore.Bean.ShareContent;
+import xingyingyue.com.goexplore.Dao.ShareContentDao;
 import xingyingyue.com.goexplore.R;
 
 /**
@@ -34,11 +36,10 @@ public class ShareContentActivity extends BaseActivity{
     private TextView publishTime;
     private TextView publishPlace;
     private TextView deleteButton;
-    private TextView loadReview;
     private GridView gridView;
-    private RecyclerView reviewView;
     private List<Map<String,Object>> imageList;
     private SimpleAdapter adapter;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -48,14 +49,12 @@ public class ShareContentActivity extends BaseActivity{
         if(actionBar!=null){
             actionBar.hide();
         }
+        Intent intent=getIntent();
+        id=intent.getIntExtra("id",1);
         imageList=new ArrayList<Map<String,Object>>();
-        initList();
+        //initList();
         initView();
-        head.setImageResource(R.mipmap.ic_launcher);
-        author.setText("xingyingyue");
-        content.setText("今天天气很好啊");
-        publishTime.setText("2017年4月20日");
-        publishPlace.setText("华南理工大学");
+        loadData();
     }
     private void initView(){
         back=(Button)findViewById(R.id.title_back);
@@ -75,6 +74,18 @@ public class ShareContentActivity extends BaseActivity{
         adapter=new SimpleAdapter(this,imageList,R.layout.image_item,from,to);
         gridView.setAdapter(adapter);
 
+    }
+    private void loadData(){
+        ShareContentDao shareContentDao=new ShareContentDao();
+        List<ShareContent>shareContentList=shareContentDao.queryShareContentListById(ShareContentActivity.this,id);
+        if (shareContentList.size()>0){
+            ShareContent shareContent=shareContentList.get(0);
+            head.setImageResource(R.mipmap.ic_launcher);
+            author.setText(shareContent.getUserName());
+            content.setText(shareContent.getContent());
+            publishTime.setText(shareContent.getPublishTime());
+            publishPlace.setText(shareContent.getPlace());
+        }
     }
 
     @Override

@@ -16,13 +16,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import xingyingyue.com.goexplore.Adapter.PictureAdapter;
+import xingyingyue.com.goexplore.Bean.ShareContent;
+import xingyingyue.com.goexplore.Bean.User;
+import xingyingyue.com.goexplore.Dao.ShareContentDao;
+import xingyingyue.com.goexplore.Dao.UserDao;
 import xingyingyue.com.goexplore.R;
 import xingyingyue.com.goexplore.Util.BitmapUtils;
 
@@ -33,10 +40,15 @@ import xingyingyue.com.goexplore.Util.BitmapUtils;
 public class EditContentActivity extends BaseActivity{
     private List<Bitmap> data = new ArrayList<Bitmap>();
     private GridView mGridView;
+    private EditText title;
+    private EditText place;
+    private EditText content;
     private String photoPath;
     private PictureAdapter adapter;
     private Button back;
     private Button send;
+    private String userAccount;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +58,16 @@ public class EditContentActivity extends BaseActivity{
             actionBar.hide();
         }
         setContentView(R.layout.edit_content);
+        Intent intent=getIntent();
+        userAccount=intent.getStringExtra("userAccount");
+        password=intent.getStringExtra("password");
         initView();
     }
 
     private void initView(){
+        title=(EditText)findViewById(R.id.edit_content_title);
+        place=(EditText)findViewById(R.id.edit_content_place);
+        content=(EditText)findViewById(R.id.content_et);
         back=(Button)findViewById(R.id.edit_content_title_back);
         back.setOnClickListener(this);
         send=(Button)findViewById(R.id.edit_content_send);
@@ -101,12 +119,35 @@ public class EditContentActivity extends BaseActivity{
                 finish();
                 break;
             case R.id.edit_content_send:
-                MainActivity.actionStart(EditContentActivity.this);
+                saveShareContent();
+                MainActivity.actionStart(EditContentActivity.this,null,null);
                 break;
         }
     }
 
+    //将编写的内容发布
+    private void saveShareContent(){
+        ShareContent shareContent=new ShareContent();
+        UserDao userDao=new UserDao();
+        ShareContentDao shareContentDao=new ShareContentDao();
+        List<User>userList=userDao.queryRoleInfoByUserAccount(EditContentActivity.this,userAccount);
+        if(userList.size()>0) {
+            User user=userList.get(0);
+            //获取系统日期
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+            Date curDate=new Date(System.currentTimeMillis());
+            String time=simpleDateFormat.format(curDate);
 
+            shareContent.setUserAccount(userAccount);
+            shareContent.setUserName(user.getUserName());
+            shareContent.setTitle(title.getText().toString().trim());
+            shareContent.setPlace(place.getText().toString().trim());
+            shareContent.setContent(content.getText().toString().trim());
+            shareContent.setPublishTime(time);
+
+            shareContentDao.saveShareContent(shareContent,EditContentActivity.this);
+        }
+    }
     protected void dialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditContentActivity.this);
         builder.setMessage("要删除这张图片吗");
@@ -166,8 +207,10 @@ public class EditContentActivity extends BaseActivity{
             adapter.notifyDataSetChanged();
         }
     }
-    public static void actionStart(Context context){
+    public static void actionStart(Context context,String userAccount,String password){
         Intent intent=new Intent(context,EditContentActivity.class);
+        intent.putExtra("userAccount",userAccount);
+        intent.putExtra("password",password);
         context.startActivity(intent);
     }
 }

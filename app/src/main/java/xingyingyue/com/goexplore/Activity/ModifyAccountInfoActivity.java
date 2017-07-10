@@ -3,19 +3,29 @@ package xingyingyue.com.goexplore.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import xingyingyue.com.goexplore.R;
+import xingyingyue.com.goexplore.Util.OkHttpUtil;
 
 /**
  * Created by huanghaojian on 17/6/28.
  */
 
 public class ModifyAccountInfoActivity extends BaseActivity{
+    private String userAccount;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,19 +35,31 @@ public class ModifyAccountInfoActivity extends BaseActivity{
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        //获取从登录界面传来的账号密码
+        Intent intent=getIntent();
+        userAccount=intent.getStringExtra("userAccount");
+        password=intent.getStringExtra("password");
+
         final TextView pwdHint,pwdReHint;
         pwdHint = (TextView)findViewById(R.id.pwdHint);
         pwdReHint = (TextView)findViewById(R.id.pwdReHint);
         pwdHint.setVisibility(View.INVISIBLE);
         pwdReHint.setVisibility(View.INVISIBLE);
-        final Button btnlogout;
-        btnlogout = (Button)findViewById(R.id.btnlogout);
-        btnlogout.setVisibility(View.INVISIBLE);
+
+        final Button sureModify;
+        sureModify = (Button)findViewById(R.id.btnmakesuremodify);
+        sureModify.setVisibility(View.INVISIBLE);
+
+
         final EditText ModPwd,ModPwdAgain;
         ModPwd = (EditText)findViewById(R.id.ModPwd);
         ModPwdAgain = (EditText)findViewById(R.id.ModPwdAgain);
         ModPwd.setVisibility(View.INVISIBLE);
         ModPwdAgain.setVisibility(View.INVISIBLE);
+
+        final TextView myUserAccount;
+        myUserAccount=(TextView)findViewById(R.id.userAccount_);
+        myUserAccount.setText(userAccount);
 
         Button btnchangepwd = (Button)findViewById(R.id.btnchangepsw);
         btnchangepwd.setOnClickListener(new View.OnClickListener() {
@@ -45,10 +67,29 @@ public class ModifyAccountInfoActivity extends BaseActivity{
             public void onClick(View view) {
                 pwdHint.setVisibility(View.VISIBLE);
                 pwdReHint.setVisibility(View.VISIBLE);
-                btnlogout.setVisibility(View.VISIBLE);
+                sureModify.setVisibility(View.VISIBLE);
                 ModPwd.setVisibility(View.VISIBLE);
                 ModPwdAgain.setVisibility(View.VISIBLE);
 
+            }
+        });
+        Button btnlogout=(Button)findViewById(R.id.btnlogout);
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActvity.actionStart(ModifyAccountInfoActivity.this);
+                finish();
+            }
+        });
+
+        sureModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ModPwd.getText().toString().trim().equals(ModPwdAgain.getText().toString().trim())) {
+                    modifyFunc(userAccount, password, ModPwd.getText().toString().trim());
+                }else{
+                    Toast.makeText(ModifyAccountInfoActivity.this,"两次的密码输入不一致",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -61,8 +102,59 @@ public class ModifyAccountInfoActivity extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-    public static void actionStart(Context context){
+
+    public void modifyFunc(final String userAccount,final String oldPassword,final String newPassword){
+        String modifyPasswordUrl="http://110.64.90.22:8080/user/modifypassword?userAccount="+userAccount+"&oldPassword="+oldPassword+
+                "&newPassword="+newPassword;
+        OkHttpUtil.sendOkHttpRequest(modifyPasswordUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ModifyAccountInfoActivity.this,"修改密码失败",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String response1=response.body().string();
+                Log.e("test",response1);
+                if(response1.trim().equals("0")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModifyAccountInfoActivity.this, "用户不存在或密码不正确", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                if(response1.trim().equals("2")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModifyAccountInfoActivity.this, "修改失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                if(response1.trim().equals("1")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModifyAccountInfoActivity.this, "修改成功", Toast.LENGTH_LONG).show();
+                            MainActivity.actionStart(ModifyAccountInfoActivity.this,userAccount,newPassword);
+                            finish();
+                        }
+                    });
+                }
+            }
+        });
+    }
+    public static void actionStart(Context context,String userAccount,String password){
         Intent intent=new Intent(context,ModifyAccountInfoActivity.class);
+        intent.putExtra("userAccount",userAccount);
+        intent.putExtra("password",password);
         context.startActivity(intent);
     }
 }

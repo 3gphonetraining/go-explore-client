@@ -12,16 +12,42 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
             <EditText
+                android:id="@+id/edit_content_title"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:background="@drawable/login_edittext_bg"
+                android:hint="标题："/>
+            <EditText
+                android:id="@+id/edit_content_place"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:background="@drawable/login_edittext_bg"
+                android:hint="地点："/>
+            <EditText
+                android:layout_marginTop="5dp"
                 android:id="@+id/content_et"
                 android:layout_width="320dp"
                 android:layout_height="120dp"
-                android:background="@drawable/edit_content_shape_white"
+                android:background="@drawable/login_edittext_bg"
+                android:layout_gravity="center_horizontal"
                 android:gravity="top"
                 android:hint="随手说出你此刻的心声..."
                 android:textColorHint="@color/textColor"

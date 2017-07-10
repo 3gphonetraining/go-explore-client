@@ -6,4 +6,6 @@
     <color name="textColor">#FFFFFF</color>
     <color name="titleLayout">#171717</color>
     <color name="text_blue">#1C86EE</color>
+    <color name="text_green">#7FFF00</color>
+    <color name="bg_golden">#FFC125</color>
 </resources>

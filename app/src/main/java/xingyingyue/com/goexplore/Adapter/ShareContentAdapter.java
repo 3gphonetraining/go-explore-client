@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import xingyingyue.com.goexplore.Activity.ShareContentActivity;
+import xingyingyue.com.goexplore.Activity.ShareContentListActivity;
 import xingyingyue.com.goexplore.Bean.ShareContent;
 import xingyingyue.com.goexplore.R;
 
@@ -56,7 +57,7 @@ public class ShareContentAdapter extends RecyclerView.Adapter<ShareContentAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder,int position){
         ShareContent shareContent=shareContentList.get(position);
-        viewHolder.head.setImageResource(shareContent.getImageId());
+        viewHolder.head.setImageResource(R.mipmap.ic_launcher);
         viewHolder.title.setText(shareContent.getTitle());
         viewHolder.publicPlace.setText(shareContent.getPlace());
         viewHolder.publishTime.setText(shareContent.getPublishTime());

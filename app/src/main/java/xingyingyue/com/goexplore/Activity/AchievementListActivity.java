@@ -34,9 +34,13 @@ public class AchievementListActivity extends BaseActivity{
     private FragmentTab2 fragmentTab2;
     private FragmentTab3 fragmentTab3;
     private FragmentTransaction fragmentTransaction;
+    public static AchievementListActivity achievementListActivity;
+    public static Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        achievementListActivity=this;
+        mContext=this.getBaseContext();
         setContentView(R.layout.achievement_list);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){

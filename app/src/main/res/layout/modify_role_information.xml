@@ -38,7 +38,7 @@
             android:layout_marginTop="1dp"
             android:background="#FFFFFF"
             android:drawablePadding="6sp"
-            android:hint="123456789"
+            android:hint="未能显示"
             android:gravity="center_horizontal"
             android:textColor="#3D3D3D"
             android:textColorHint="#A3B1CA"
@@ -71,13 +71,12 @@
             android:background="#F2F2F2" >
         </View>
         <EditText
-            android:id="@+id/RegPwdAgain"
+            android:id="@+id/modify_role_sex"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
             android:background="#FFFFFF"
             android:drawablePadding="6sp"
-            android:inputType="textPassword"
             android:textColorHint="#A3B1CA"
             android:textSize="15sp" >
         </EditText>
@@ -106,7 +105,7 @@
             android:background="#F2F2F2" >
         </View>
         <EditText
-            android:id="@+id/RegMail"
+            android:id="@+id/modify_role_age"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
@@ -124,7 +123,7 @@
         </View>
     </LinearLayout>
     <Button
-        android:id="@+id/btnlogout"
+        android:id="@+id/modify_role_button"
         android:layout_width="260dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"

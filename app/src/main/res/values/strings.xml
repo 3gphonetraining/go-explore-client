@@ -16,6 +16,11 @@
 
     <string name="forget_password_button">修改密码</string>
 
+    <string name="pass_information_default">随机百宝箱</string>
+
+    <string name="achievement_item_completion_prefix">条件：</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

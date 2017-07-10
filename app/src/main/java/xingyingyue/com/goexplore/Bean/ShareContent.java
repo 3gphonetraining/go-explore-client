@@ -6,6 +6,7 @@ package xingyingyue.com.goexplore.Bean;
 
 public class ShareContent {
     private int id;
+    private String userAccount;
     private String userName;
     private int imageId;
     private String title;
@@ -31,11 +32,18 @@ public class ShareContent {
         this.content=content;
         this.place=place;
     }
+    public ShareContent(){}
     public int getId(){
         return id;
     }
     public void setId(int id){
         this.id=id;
+    }
+    public String getUserAccount(){
+        return userAccount;
+    }
+    public void setUserAccount(String userAccount){
+        this.userAccount=userAccount;
     }
     public String getUserName(){
         return userName;
